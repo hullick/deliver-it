@@ -1,0 +1,44 @@
+# For more information: https://laravel.com/docs/sail
+version: '3.5'
+services:
+    laravel:
+        container_name: deliver-it
+        build:
+            context: ./vendor/laravel/sail/runtimes/8.0
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP}'
+        image: sail-8.0/app
+        environment:
+            WWWUSER: www-data
+            LARAVEL_SAIL: 1
+        volumes:
+            - '.:/var/www/html'
+        networks:
+            - deliver-it-network
+        depends_on:
+            - mysql
+#            - selenium
+    mysql:
+        container_name: deliver-it-db
+        image: 'mysql:8.0'
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_DATABASE: '${DB_DATABASE}'
+            MYSQL_USER: '${DB_USERNAME}'
+            MYSQL_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        networks:
+            - deliver-it-network
+        healthcheck:
+          test: ["CMD", "mysqladmin", "ping"]
+#    selenium:
+#       image: 'selenium/standalone-chrome'
+#       networks:
+#           - deliver-it-network
+networks:
+    deliver-it-network:
+        ipam:
+             driver: default
+             config:
+                  - subnet: 172.64.2.0/28
