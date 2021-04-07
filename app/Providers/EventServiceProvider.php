@@ -1,14 +1,17 @@
 <?php
-
 namespace App\Providers;
 
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
+use App\Observers\RaceSubscriptionObserver;
+use App\Models\Runner;
+use App\Observers\RunnerObserver;
+use App\Models\RaceSubscription;
 
 class EventServiceProvider extends ServiceProvider
 {
+
     /**
      * The event listener mappings for the application.
      *
@@ -16,8 +19,8 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         Registered::class => [
-            SendEmailVerificationNotification::class,
-        ],
+            SendEmailVerificationNotification::class
+        ]
     ];
 
     /**
@@ -27,6 +30,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        RaceSubscription::observe(RaceSubscriptionObserver::class);
+        Runner::observe(RunnerObserver::class);
     }
 }

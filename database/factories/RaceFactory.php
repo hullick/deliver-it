@@ -22,8 +22,16 @@ class RaceFactory extends Factory
     public function definition()
     {
         return [
-            "distance" => app('Faker')->raceDistance(),
+            "distance" => app('Faker')->validRaceDistance(),
             "date" => $this->faker->dateTimeBetween("now", "+20years")
         ];
+    }
+    
+    public function withInvalidDistance(){
+        return $this->state(function (array $attributes) {
+            return [
+                'distance' => '7',
+            ];
+        });
     }
 }
