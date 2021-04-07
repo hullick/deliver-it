@@ -15,7 +15,7 @@ class CreateRaceTable extends Migration
     {
         Schema::create('race', function (Blueprint $table) {
             $table->id();
-            $table->enum('difficulty', [3, 5, 10, 21, 42]);
+            $table->enum('distance', [3, 5, 10, 21, 42]);
             $table->datetime("date")->nullable(false);
             $table->timestamps();
             $table->softDeletes();
