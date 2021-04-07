@@ -17,7 +17,7 @@ class CreateRunnerTable extends Migration
             $table->id();
             $table->string("name", 255)->nullable(false);
             $table->string("cpf", 11)->nullable(false);
-            $table->date("birthday")->nullable(false);
+            $table->date("birthdate")->nullable(false);
             $table->timestamps();
             $table->softDeletes();
         });
