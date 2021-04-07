@@ -30,7 +30,9 @@ class Runner extends Model
      */
     public function raceSubscriptions()
     {
-        return $this->belongsToMany(Race::class, "race_subscription", "runner_id");
+        return $this->belongsToMany(Race::class, "race_subscription", "runner_id")
+            ->using(RaceSubscription::class)
+            ->withTimestamps();
     }
 
     /**
