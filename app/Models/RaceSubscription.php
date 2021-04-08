@@ -9,11 +9,21 @@ class RaceSubscription extends Pivot
 {
     use HasFactory;
     
+    public $incrementing = true;
+    
     /**
      * Get the race from subscription.
      */
     public function race()
     {
        return $this->belongsTo(Race::class, 'race_id');
+    }
+    
+    /**
+     * Get the race from subscription.
+     */
+    public function runner()
+    {
+        return $this->belongsTo(Runner::class, 'runner_id');
     }
 }

@@ -32,4 +32,15 @@ class Race extends Model
             ->using(RaceSubscription::class)
             ->withTimestamps();
     }
+
+    /**
+     * Runners subscribed in the race
+     *
+     * @return BelongsToMany
+     * @var array
+     */
+    public function runnersResults()
+    {
+        return $this->hasManyThrough(RaceRunnerResult::class, RaceSubscription::class);
+    }
 }

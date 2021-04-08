@@ -23,6 +23,8 @@ class CreateRaceRunnerResultTable extends Migration
             $table->datetime("finish_time")->nullable(false);
             $table->timestamps();
             $table->softDeletes();
+
+            $table->unique('race_subscription_id');
         });
     }
 
