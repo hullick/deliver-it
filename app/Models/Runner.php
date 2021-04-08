@@ -13,13 +13,12 @@ class Runner extends Model
 
     protected $table = "runner";
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
     protected $casts = [
         'birthday' => 'datetime'
+    ];
+
+    protected $fillable = [
+        "name"
     ];
 
     /**

@@ -23,9 +23,74 @@ class RaceSubscriptionFactory extends Factory
      */
     public function definition()
     {
-        return [
-            "race_id" => Race::factory()->create(),
-            "runner_id" => Runner::factory()->create()
-        ];
+        return [];
+    }
+
+    public function withRace()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                "race_id" => Race::factory()->create()
+            ];
+        });
+    }
+
+    public function withRunner()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                "runner_id" => Runner::factory()->create()
+            ];
+        });
+    }
+
+    public function withRunnerOfFirstGroup()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                "runner_id" => Runner::factory()->firstGroup()
+                    ->create()
+            ];
+        });
+    }
+
+    public function withRunnerOfSecondGroup()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                "runner_id" => Runner::factory()->secondGroup()
+                    ->create()
+            ];
+        });
+    }
+
+    public function withRunnerOfThirdGroup()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                "runner_id" => Runner::factory()->thirdGroup()
+                    ->create()
+            ];
+        });
+    }
+
+    public function withRunnerOfFourthGroup()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                "runner_id" => Runner::factory()->fourthGroup()
+                    ->create()
+            ];
+        });
+    }
+
+    public function withRunnerOfFifthGroup()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                "runner_id" => Runner::factory()->fifthGroup()
+                    ->create()
+            ];
+        });
     }
 }

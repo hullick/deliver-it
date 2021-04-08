@@ -5,8 +5,6 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use App\Observers\RaceSubscriptionObserver;
-use App\Models\Runner;
-use App\Observers\RunnerObserver;
 use App\Models\RaceSubscription;
 
 class EventServiceProvider extends ServiceProvider
@@ -31,6 +29,5 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         RaceSubscription::observe(RaceSubscriptionObserver::class);
-        Runner::observe(RunnerObserver::class);
     }
 }

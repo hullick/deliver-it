@@ -14,16 +14,34 @@ class RaceRunnerResult extends Model
     use HasFactory;
 
     protected $table = "race_runner_result";
-    
+
+    protected $fillable = [
+        "fillable"
+    ];
+
     /**
      * Runner result's associated race subscription
      *
-     * @return HasOneThrough
+     * @return BelongsTo
      *
      */
     public function raceSubscription()
     {
         return $this->belongsTo(RaceSubscription::class);
+    }
+
+    /**
+     * Runner result's associated race subscription
+     *
+     * @return BelongsTo
+     *
+     */
+    public function raceSubscriptionWithRunnersOfFirstGroup()
+    {
+        return $this->raceSubscription()->whereBetween("race_subscription.runner.birthday", [
+            Carbon::now()->subYears(25),
+            Carbon::now()->subYears(18)
+        ]);
     }
 
     /**

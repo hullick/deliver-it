@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class RunnerTest extends TestCase
 {
-//     use RefreshDatabase;
+    use RefreshDatabase;
 
     /**
      * Testing underage user's
@@ -26,14 +26,17 @@ class RunnerTest extends TestCase
     }
 
     /**
+     * @group Models
      * Testing runner's subscription with date conflict
      */
-        public function test_race_subscription_conflict()
-        {
-            $this->expectException(RunnerTryingToRunARaceInTheSameDayThanAnotherException::class);
-    
-            Runner::factory()->hasRaceSubscriptions(4, [
-                "date" => Carbon::now()
-            ])->create();
-        }
+    public function test_race_subscription_conflict()
+    {
+        $this->expectException(RunnerTryingToRunARaceInTheSameDayThanAnotherException::class);
+
+        Runner::factory()->hasRaceSubscriptions(4, [
+            "date" => Carbon::now()
+        ])->create();
+    }
+
+    // TODO: Test for not unique CPF
 }

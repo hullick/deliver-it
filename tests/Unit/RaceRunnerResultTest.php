@@ -2,18 +2,15 @@
 namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\Race;
-use App\Models\Runner;
 use Tests\TestCase;
-use Carbon\Carbon;
 use App\Models\RaceRunnerResult;
 use App\Exceptions\RaceRunnerResultStartDatetimeBeforeRaceDate;
 use App\Exceptions\RaceRunnerResultFinishTimeBeforeStartTime;
+use App\Models\RaceSubscription;
 
 class RaceRunnerResultTest extends TestCase
 {
-
-    // use RefreshDatabase;
+    use RefreshDatabase;
 
     /**
      * Trying to add race runner result's with race's date greater than start time.
@@ -24,19 +21,35 @@ class RaceRunnerResultTest extends TestCase
     {
         $this->expectException(RaceRunnerResultStartDatetimeBeforeRaceDate::class);
 
-        RaceRunnerResult::factory()->startTimeBeforeRaceDate()->make();
+        $raceSubscription = RaceSubscription::factory()->withRace()
+            ->withRunner()
+            ->create();
+
+        RaceRunnerResult::factory()->for($raceSubscription)
+            ->startTimeBeforeRaceDate()
+            ->make([
+            "finish_time" => app('Faker')->dateTimeBetween($raceSubscription->getAttribute("race")
+                ->getAttribute("date")
+                ->addHour(1), $raceSubscription->getAttribute("race")
+                ->getAttribute("date")
+                ->addHour(6))
+        ]);
     }
 
-    
     /**
      * Trying to add race runner result's with start time greater than finish time.
      *
+     * @group Current
      * @return void
      */
     public function test_race_runner_result_finish_time_before_start_time()
     {
         $this->expectException(RaceRunnerResultFinishTimeBeforeStartTime::class);
-        
-        RaceRunnerResult::factory()->finishTimeBeforeStartTime()->make();
+
+        RaceRunnerResult::factory()->for(RaceSubscription::factory()->withRace()
+            ->withRunner())
+            ->withStartTime()
+            ->finishTimeBeforeStartTime()
+            ->make();
     }
 }

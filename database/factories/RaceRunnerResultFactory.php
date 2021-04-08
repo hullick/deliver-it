@@ -25,19 +25,7 @@ class RaceRunnerResultFactory extends Factory
      */
     public function definition()
     {
-        $raceSubscription = RaceSubscription::factory()->create();
-        
-        $startTime = $this->faker->dateTimeBetween($raceSubscription->getAttribute("race")
-            ->getAttribute("date"), $raceSubscription->getAttribute("race")
-            ->getAttribute("date")
-            ->addHour(1));
-        $finishTime = $this->faker->dateTimeBetween(Carbon::parse($startTime), Carbon::parse($startTime)->addHour(5));
-        
-        return [
-            "race_subscription_id" => $raceSubscription->id,
-            "start_time" => $startTime,
-            "finish_time" => $finishTime
-        ];
+        return [];
     }
 
     /**
@@ -49,7 +37,7 @@ class RaceRunnerResultFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                "start_time" => $this->faker->dateTime(Carbon::parse(RaceSubscription::find($attributes["race_subscription_id"])->getAttribute("race")
+                "start_time" => $this->faker->dateTime(Carbon::parse(RaceSubscription::find($attributes["race_subscription_id"]())->getAttribute("race")
                     ->getAttribute("date")))
             ];
         });
@@ -65,6 +53,38 @@ class RaceRunnerResultFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 "finish_time" => $this->faker->dateTime(Carbon::parse($attributes["start_time"]))
+            ];
+        });
+    }
+
+    public function withRaceSubscription()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                "race_subscription_id" => RaceSubscription::factory()->withRace()
+                    ->withRunner()
+                    ->create()
+            ];
+        });
+    }
+
+    public function withStartTime()
+    {
+        return $this->state(function (array $attributes) {
+            $raceSubscription = RaceSubscription::find($attributes['race_subscription_id']());
+            
+            return [
+                "start_time" => $this->faker->dateTimeBetween($raceSubscription->race->getAttribute("date"), $raceSubscription->race->getAttribute("date")
+                    ->addHour(1))
+            ];
+        });
+    }
+
+    public function withFinishTime()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                "start_time" => $this->faker->dateTimeBetween($attributes["start_time"], Carbon::parse($attributes["start_time"])->addHours(5))
             ];
         });
     }
