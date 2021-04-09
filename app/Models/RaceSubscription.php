@@ -13,7 +13,11 @@ class RaceSubscription extends Pivot
 
     protected $hidden = [
         "created_at",
-        "updated_at"
+        "updated_at",
+        "id",
+        "runner_id",
+        "race_id",
+        "deleted_at"
     ];
 
     /**

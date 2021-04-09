@@ -23,6 +23,12 @@ class Race extends Model
         'date' => 'datetime'
     ];
 
+    protected $hidden = [
+        "created_at",
+        "updated_at",
+        "deleted_at"
+    ];
+
     /**
      * Runners subscribed in the race
      *
@@ -127,22 +133,5 @@ class Race extends Model
             $join->on("runner.id", "=", "race_subscription.runner_id")
                 ->whereDate("runner.birthdate", "<", Carbon::now()->subYears(55));
         });
-    }
-
-    /**
-     * Runners subscribed in the race that belongs to the fifth group
-     *
-     * @return Collection
-     * @var array
-     */
-    public function runnersResultsGrouped()
-    {
-        return [
-            "18-25" => $this->runnersResultsWithRunnersOfFirstGroup,
-            "25-35" => $this->runnersResultsWithRunnersOfSecondGroup,
-            "35-45" => $this->runnersResultsWithRunnersOfThirdGroup,
-            "45-55" => $this->runnersResultsWithRunnersOfFourthGroup,
-            "55+" => $this->runnersResultsWithRunnersOfFifthGroup
-        ];
     }
 }

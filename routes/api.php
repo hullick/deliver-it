@@ -31,7 +31,23 @@ Route::group([
     Orion::belongsToManyResource('race', 'runners-subscribed', RaceRunnersSubscriptionsController::class)->withSoftDeletes();
 
     Route::get('/race/{id}/grouped-results', function ($id) {
-        $groupedResult = Race::findOrFail($id)->runnersResultsGrouped();
+        $groupedResult = [
+            "18-25" => Race::findOrFail($id)->runnersResultsWithRunnersOfFirstGroup()
+                ->orderBy("finish_time", "asc")
+                ->get(),
+            "25-35" => Race::findOrFail($id)->runnersResultsWithRunnersOfSecondGroup()
+                ->orderBy("finish_time", "asc")
+                ->get(),
+            "35-45" => Race::findOrFail($id)->runnersResultsWithRunnersOfThirdGroup()
+                ->orderBy("finish_time", "asc")
+                ->get(),
+            "45-55" => Race::findOrFail($id)->runnersResultsWithRunnersOfFourthGroup()
+                ->orderBy("finish_time", "asc")
+                ->get(),
+            "55+" => Race::findOrFail($id)->runnersResultsWithRunnersOfFifthGroup()
+                ->orderBy("finish_time", "asc")
+                ->get()
+        ];
 
         foreach ($groupedResult as $group) {
             foreach ($group as $result) {
@@ -42,6 +58,21 @@ Route::group([
 
         return JsonResponse::create([
             "data" => $groupedResult
+        ]);
+    });
+
+    Route::get('/race/{id}/results', function ($id) {
+        $results = Race::findOrFail($id)->runnersResults()
+            ->orderBy("finish_time", "asc")
+            ->get();
+
+        foreach ($results as $result) {
+            $result->raceSubscription->race;
+            $result->raceSubscription->runner;
+        }
+
+        return JsonResponse::create([
+            "data" => $results
         ]);
     });
 });

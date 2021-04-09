@@ -18,6 +18,14 @@ class RaceRunnerResult extends Model
         "fillable"
     ];
 
+    protected $hidden = [
+        "id",
+        "race_subscription_id",
+        "created_at",
+        "updated_at",
+        "deleted_at"
+    ];
+
     /**
      * Runner result's associated race subscription
      *
