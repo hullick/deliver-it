@@ -63,5 +63,4 @@ Regras de negócio
 
 ## Rodando o projeto
 
-Para executar o projeto, em ambientes linux, instale a ferramenta [Docker Composer](https://docs.docker.com/compose/), siga para a pasta raiz do projeto e execute o comando `docker-compose up -d`
-
+Para executar o projeto, em ambientes linux, instale as ferramentas [Docker Composer](https://docs.docker.com/compose/) e [PHP Composer](https://getcomposer.org/), siga para a pasta raiz do projeto e execute o comando, copie o arquivo ```.env.example``` para ```.env``` e execute o comando `docker-compose up -d`
