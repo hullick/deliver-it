@@ -3,8 +3,6 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\RaceRunnerResult;
-use App\Models\Race;
-use App\Models\Runner;
 use Carbon\Carbon;
 use App\Models\RaceSubscription;
 
@@ -17,6 +15,13 @@ class RaceRunnerResultFactory extends Factory
      * @var string
      */
     protected $model = RaceRunnerResult::class;
+
+    /**
+     * Used to keep an instance between iterations
+     *
+     * @var \Faker\Factory
+     */
+    public static $race_subscription = null;
 
     /**
      * Define the model's default state.
@@ -71,8 +76,13 @@ class RaceRunnerResultFactory extends Factory
     public function withStartTime()
     {
         return $this->state(function (array $attributes) {
-            $raceSubscription = RaceSubscription::find($attributes['race_subscription_id']());
-            
+            $raceSubscription = null;
+            if ($attributes['race_subscription_id'] instanceof \Closure) {
+                $raceSubscription == RaceSubscription::find($attributes['race_subscription_id']());
+            } else {
+                $raceSubscription = $attributes['race_subscription_id'];
+            }
+
             return [
                 "start_time" => $this->faker->dateTimeBetween($raceSubscription->race->getAttribute("date"), $raceSubscription->race->getAttribute("date")
                     ->addHour(1))
@@ -84,7 +94,7 @@ class RaceRunnerResultFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                "start_time" => $this->faker->dateTimeBetween($attributes["start_time"], Carbon::parse($attributes["start_time"])->addHours(5))
+                "finish_time" => $this->faker->dateTimeBetween($attributes["start_time"], Carbon::parse($attributes["start_time"])->addHours(5))
             ];
         });
     }

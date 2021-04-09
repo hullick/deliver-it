@@ -138,11 +138,11 @@ class Race extends Model
     public function runnersResultsGrouped()
     {
         return [
-            $this->runnersResultsWithRunnersOfFirstGroup,
-            $this->runnersResultsWithRunnersOfSecondGroup,
-            $this->runnersResultsWithRunnersOfThirdGroup,
-            $this->runnersResultsWithRunnersOfFourthGroup,
-            $this->runnersResultsWithRunnersOfFifthGroup
+            "18-25" => $this->runnersResultsWithRunnersOfFirstGroup,
+            "25-35" => $this->runnersResultsWithRunnersOfSecondGroup,
+            "35-45" => $this->runnersResultsWithRunnersOfThirdGroup,
+            "45-55" => $this->runnersResultsWithRunnersOfFourthGroup,
+            "55+" => $this->runnersResultsWithRunnersOfFifthGroup
         ];
     }
 }
