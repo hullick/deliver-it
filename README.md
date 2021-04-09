@@ -63,4 +63,27 @@ Regras de negócio
 
 ## Rodando o projeto
 
-Para executar o projeto, em ambientes linux, instale as ferramentas [Docker Composer](https://docs.docker.com/compose/) e [PHP Composer](https://getcomposer.org/), siga para a pasta raiz do projeto e execute o comando, copie o arquivo ```.env.example``` para ```.env``` e execute o comando `docker-compose up -d`
+Para executar o projeto, em ambientes linux, instale as ferramentas [Docker Composer](https://docs.docker.com/compose/) e [PHP Composer](https://getcomposer.org/), siga para a pasta raiz do projeto e execute o comando, copie o arquivo `.env.example` para `.env` e execute o comando `docker-compose up -d`.
+
+Execute o comando `docker exec -it deliver-it php artisan migrate` para criar as tabelas e popular com uma corrida, diversos usuários e suas inscrições e resultados.
+
+Para pegar o ip do container e acessar o serviço, utilize o comando `docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' deliver-it`.
+
+
+### Rotas dos serviços
+
+Este projeto utiliza o [Orion](https://tailflow.github.io/laravel-orion-docs/) para criar as pontas das APIs, dê uma olhada nas [rotas padrões](https://tailflow.github.io/laravel-orion-docs/guide/models.html#setting-up-controller) geradas por ele.
+
+Para listar todas as rotas registradas no projeto, utilize o comando `docker exec -it deliver-it php artisan route:list`.
+
+   - Prova: api/races
+   - Corredores: api/runners
+   - Inscrições na prova: api/race/{race}/runners-subscribed
+   - Resultados da prova agrupados por idade: api/race/{id}/grouped-results
+   - Resultados gerais da prova: api/race/{id}/results
+
+   *** Considerar índice do resultado como posição.
+
+## Executando testes
+
+Para executar os testes unitários, execute o comando `docker exec -it deliver-it php artisan migrate`. Testes lentos, pois dá-se um refresh toda a vez que o teste é executado.
