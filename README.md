@@ -1,62 +1,67 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+Talk about groups Unit testing
+Add XDebug for test coverage
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Sobre este projeto
 
-## About Laravel
+Este é um projeto de teste para a [DeliverIt](http://deliverit.com.br/).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Definição do objetivo
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Serviços a serem criados:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+   - Inclusão de corredores para uma corrida
+      - ID único
+      - Nome
+      - CPF
+      - Data de nascimento
 
-## Learning Laravel
+   - Inclusão de provas
+      - Id da prova
+      - Tipo de prova (3, 5, 10, 21, 42km)
+      - Data
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+   - Inclusão de corredores em provas
+      - ID do corredor
+      - ID da prova
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+   - Inclusão de resultados dos corredores
+      - ID do corredor
+      - ID da prova
+      - Horário de início da prova
+      - Horário de conclusão da prova
 
-## Laravel Sponsors
+   - Listagem de classificação das provas por idade
+      - ID da prova
+      - Tipo de prova
+      - ID do corredor
+      - Idade
+      - Nome do corredor
+      - Posição
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+   - Listagem de classificação das provas gerais
+      - ID da prova
+      - Tipo de prova
+      - ID do corredor
+      - Idade
+      - Nome do corredor
+      - Posição
 
-### Premium Partners
+Regras de negócio
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/)**
-- **[OP.GG](https://op.gg)**
+   - Todos os campos são obrigatórios.
+   - Não é permitido cadastrar o mesmo corredor em duas provas diferentes na mesma data. Por exemplo, o corredor Barry Allen não pode estar cadastrado nas provas de 21km e 42km no dia 05/10/2019.
+   - Não é permitida a inscrição de menores de idade.
+   - As classificações são definidas pelo menor tempo de prova.
+   - A listagem de classificações por idade deve apresentar as posições dos candidatos dentro dos seguintes grupos em cada tipo de prova:
+      - 18 – 25 anos
+      - 25 – 35 anos
+      - 35 – 45 anos
+      - 45 – 55 anos
+      - Acima de 55 anos
+      ** Por exemplo, as colocações de 18 -25 na prova de 3km apresentarão os 1º, 2º, 3º, ..., nesta faixa de idade, o mesmo para as outras faixas e tipos de provas.
+   - A listagem de classificações gerais deve ser separada por tipos de provas.
 
-## Contributing
+## Rodando o projeto
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Para executar o projeto, em ambientes linux, instale a ferramenta [Docker Composer](https://docs.docker.com/compose/), siga para a pasta raiz do projeto e execute o comando `docker-compose up -d`
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
